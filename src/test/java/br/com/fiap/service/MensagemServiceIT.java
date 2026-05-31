@@ -39,7 +39,6 @@ public class MensagemServiceIT {
                 .isEqualTo("Natalia");
         assertThat(mensagemRegistrada.getConteudo())
                 .isEqualTo("Adora passear");
-
     }
 
     @Test
