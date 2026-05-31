@@ -10,12 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -67,6 +64,7 @@ public class MensagemServiceTest {
         assertThatThrownBy(() -> mensagemService.registrarMensagem(mensagem))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Erro ao salvar");
+        verify(mensagemRepository, times(1)).save(mensagem);
     }
 
     @Test
@@ -129,6 +127,7 @@ public class MensagemServiceTest {
         assertThatThrownBy(() -> mensagemService.obterMensages())
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Erro ao obter lista de mensagem");
+        verify(mensagemRepository, times(1)).findAll();
     }
 
     @Test
@@ -139,7 +138,6 @@ public class MensagemServiceTest {
         mensagemExistente.setId(id);
 
         Mensagem mensagemNova = MensagemHelper.gerarMensagem("Rafael", "Uma frase alterada");
-        mensagemNova.setId(id);
 
         when(mensagemRepository.findById(any(UUID.class))).thenReturn(Optional.of(mensagemExistente));
         when(mensagemRepository.save(any(Mensagem.class))).thenAnswer(i -> i.getArgument(0));

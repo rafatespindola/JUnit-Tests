@@ -69,7 +69,8 @@ public class MensagemControllerTest {
                 .content(asJsonString(mensagemRequest)))
                 .andDo(print())
                 .andExpect(status().isCreated());
-        verify(mensagemService, times(1)).registrarMensagem(any(Mensagem.class));
+        verify(mensagemService, times(1))
+                .registrarMensagem(any(Mensagem.class));
     }
 
     private String asJsonString(final Object obj) {
@@ -89,7 +90,8 @@ public class MensagemControllerTest {
         mensagemResponse.setDataCriacao(LocalDateTime.now());
         mensagemResponse.setDataAlteracao(LocalDateTime.now());
 
-        when(mensagemService.obterMensagem(any(UUID.class))).thenReturn(mensagemResponse);
+        when(mensagemService.obterMensagem(any(UUID.class)))
+                .thenReturn(mensagemResponse);
 
         // Act + Assert
         mockMvc.perform(get("/mensagens/{id}", id)
